@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<ui:composition template="/WEB-INF/templates/BasicTemplate.xhtml">
+
+	<ui:define name="content">
+
+		<h:form>
+			<h2>Mantenimiento de Empleado</h2>
+			<h:panelGrid columns="2">
+				<h:outputText value="Nombres:" />
+				<h:inputText value="#{empleadoManagedBean.empleado.nombres}">
+				</h:inputText>
+
+				<h:outputText value="Apellidos:" />
+				<h:inputText value="#{empleadoManagedBean.empleado.apellidos}">
+				</h:inputText>
+
+				<h:outputText value="DNI:" />
+				<h:inputText value="#{empleadoManagedBean.empleado.dni}">
+				</h:inputText>
+
+				<h:outputText value="Celular:" />
+				<h:inputText value="#{empleadoManagedBean.empleado.celular}">
+				</h:inputText>
+
+				<h:outputText value="Departamento:" />
+				<h:selectOneMenu
+					value="#{empleadoManagedBean.empleado.departamento.id}">
+					<f:selectItems value="#{empleadoManagedBean.departamentos}" var="d"
+						itemLabel="#{d.nombre}" itemValue="#{d.id}">
+					</f:selectItems>
+				</h:selectOneMenu>
+
+				<h:outputText value="Cargo:" />
+				<h:selectOneMenu value="#{empleadoManagedBean.empleado.cargo.id}">
+					<f:selectItems value="#{empleadoManagedBean.cargos}" var="d"
+						itemLabel="#{d.nombre}" itemValue="#{d.id}">
+					</f:selectItems>
+				</h:selectOneMenu>
+
+				<h:commandButton value="Registrar"
+					action="#{empleadoManagedBean.guardar}" />
+			</h:panelGrid>
+
+
+
+
+			<h:dataTable value="#{empleadoManagedBean.empleados}" var="e"
+				border="1">
+				<h:column>
+					<f:facet name="header">Id</f:facet>
+		 	#{e.id}
+		</h:column>
+				<h:column>
+					<f:facet name="header">Apellidos y Nombres</f:facet>
+			#{e.apellidos}, #{e.nombres}
+		</h:column>
+				<h:column>
+					<f:facet name="header">DNI</f:facet>
+			${e.dni}
+		</h:column>
+				<h:column>
+					<f:facet name="header">Celular</f:facet>
+			${e.celular}
+		</h:column>
+				<h:column>
+					<f:facet name="header">Departamento</f:facet>
+			${e.departamento.nombre}
+		</h:column>
+				<h:column>
+					<f:facet name="header">Cargo</f:facet>
+			${e.cargo.nombre}
+		</h:column>
+				<h:column>
+					<f:facet name="header">Cambiar Estado</f:facet>
+					<h:commandLink value="${e.estado}"
+						action="#{empleadoManagedBean.editarEstado}">
+						<f:param name="parempid" value="#{e.id}"></f:param>
+					</h:commandLink>
+				</h:column>
+
+			</h:dataTable>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>
