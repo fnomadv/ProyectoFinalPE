@@ -3,10 +3,11 @@ package pe.edu.cibertec.proyemp.managedbean;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-
+import javax.faces.context.FacesContext;
 
 import com.google.common.collect.Lists;
 
@@ -25,6 +26,13 @@ public class DepartamentoManagedBean {
 	private DepartamentoService departamentoService;
 
 	public String guardar (){
+		FacesMessage message = 
+				new FacesMessage("Se guardó correctamente",
+						"El Departamento se guardó de manera satisfactoria");
+		
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.addMessage(null, message);
+		
 		departamentoService.getDepartamentoRepository().save(departamento);
 		departamento = new Departamento();
 		return "mntDepartamento";

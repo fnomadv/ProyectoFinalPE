@@ -11,47 +11,35 @@
 	<ui:define name="content">
 
 		<h:form>
-			<h2>Mantenimiento de Empleado</h2>
+			<h2>Mantenimiento del Cliente</h2>
 			<h:panelGrid columns="2">
 				<h:outputText value="Nombres:" />
-				<h:inputText value="#{empleadoManagedBean.empleado.nombres}">
+				<h:inputText value="#{clienteManagedBean.cliente.nombres}">
 				</h:inputText>
 
 				<h:outputText value="Apellidos:" />
-				<h:inputText value="#{empleadoManagedBean.empleado.apellidos}">
+				<h:inputText value="#{clienteManagedBean.cliente.apellidos}">
 				</h:inputText>
 
 				<h:outputText value="DNI:" />
-				<h:inputText value="#{empleadoManagedBean.empleado.dni}">
+				<h:inputText value="#{clienteManagedBean.cliente.dni}">
 				</h:inputText>
 
-				<h:outputText value="Celular:" />
-				<h:inputText value="#{empleadoManagedBean.empleado.celular}">
-				</h:inputText>
-
-				<h:outputText value="Departamento:" />
-				<h:selectOneMenu
-					value="#{empleadoManagedBean.empleado.departamento.id}">
-					<f:selectItems value="#{empleadoManagedBean.departamentos}" var="d"
-						itemLabel="#{d.nombre}" itemValue="#{d.id}">
-					</f:selectItems>
-				</h:selectOneMenu>
-
-				<h:outputText value="Cargo:" />
-				<h:selectOneMenu value="#{empleadoManagedBean.empleado.cargo.id}">
-					<f:selectItems value="#{empleadoManagedBean.cargos}" var="d"
+				<h:outputText value="Rol:" />
+				<h:selectOneMenu value="#{clienteManagedBean.cliente.rol.id}">
+					<f:selectItems value="#{clienteManagedBean.roles}" var="d"
 						itemLabel="#{d.nombre}" itemValue="#{d.id}">
 					</f:selectItems>
 				</h:selectOneMenu>
 
 				<h:commandButton value="Registrar"
-					action="#{empleadoManagedBean.guardar}" />
+					action="#{clienteManagedBean.guardar}" />
 			</h:panelGrid>
 
 
 
 
-			<h:dataTable value="#{empleadoManagedBean.empleados}" var="e"
+			<h:dataTable value="#{clienteManagedBean.clientes}" var="e"
 				border="1">
 				<h:column>
 					<f:facet name="header">Id</f:facet>
@@ -66,29 +54,21 @@
 				${e.dni}
 			</h:column>
 					<h:column>
-						<f:facet name="header">Celular</f:facet>
-				${e.celular}
-			</h:column>
-					<h:column>
-						<f:facet name="header">Departamento</f:facet>
-				${e.departamento.nombre}
-			</h:column>
-					<h:column>
-						<f:facet name="header">Cargo</f:facet>
-				${e.cargo.nombre}
+						<f:facet name="header">Rol</f:facet>
+				${e.rol.nombre}
 			</h:column>
 			<h:column>
 				<f:facet name="header">Cambiar Estado</f:facet>
 				<h:commandLink value="${e.estado}"
-					action="#{empleadoManagedBean.editarEstado}">
-					<f:param name="parempid" value="#{e.id}"></f:param>
+					action="#{clienteManagedBean.editarEstado}">
+					<f:param name="parcliid" value="#{e.id}"></f:param>
 				</h:commandLink>
 			</h:column>
 			<h:column>
 				<f:facet name="header">Actualizar</f:facet>
 				<h:commandLink value="actualizar"
-					action="#{empleadoManagedBean.actualizar}">
-					<f:param name="parempid" value="#{e.id}"></f:param>
+					action="#{clienteManagedBean.actualizar}">
+					<f:param name="parcliid" value="#{e.id}"></f:param>
 				</h:commandLink>
 			</h:column>
 

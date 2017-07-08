@@ -1,6 +1,5 @@
 package pe.edu.cibertec.proyemp.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -8,8 +7,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tb_empleado")
-public class Empleado {
+@Table(name = "tb_cliente")
+public class Cliente {
 
 	@Id
 	@GeneratedValue
@@ -17,16 +16,13 @@ public class Empleado {
 	private String nombres;
 	private String apellidos;
 	private String dni;
-	private String celular;
-	private String usuario; //su dni sera como usuario 
-	private String clave;   //Numero Aleatorio de 5 cifras
+	private String telefono;
+	private String usuario;
+	private String clave;
 	private String estado;
 	
 	@ManyToOne
-	private Departamento departamento = new Departamento();
-
-	@ManyToOne
-	private Cargo cargo = new Cargo();
+	private Rol rol = new Rol();
 
 	public Long getId() {
 		return id;
@@ -60,28 +56,12 @@ public class Empleado {
 		this.dni = dni;
 	}
 
-	public String getCelular() {
-		return celular;
+	public String getTelefono() {
+		return telefono;
 	}
 
-	public void setCelular(String celular) {
-		this.celular = celular;
-	}
-
-	public Departamento getDepartamento() {
-		return departamento;
-	}
-
-	public void setDepartamento(Departamento departamento) {
-		this.departamento = departamento;
-	}
-
-	public Cargo getCargo() {
-		return cargo;
-	}
-
-	public void setCargo(Cargo cargo) {
-		this.cargo = cargo;
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
 	}
 
 	public String getUsuario() {
@@ -107,7 +87,13 @@ public class Empleado {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-	
-	
-	
+
+	public Rol getRol() {
+		return rol;
+	}
+
+	public void setRol(Rol rol) {
+		this.rol = rol;
+	}
+
 }

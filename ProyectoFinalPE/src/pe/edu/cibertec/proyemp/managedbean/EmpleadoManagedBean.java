@@ -77,6 +77,17 @@ public class EmpleadoManagedBean {
 		
 		
 		empleadoService.getEmpleadoRepository().save(empleado);
+		empleado = new Empleado();
+		return "mntEmpleado";
+	}
+	
+	public String actualizar(){
+		FacesContext context = FacesContext.getCurrentInstance();
+		Map<String, String> params = context.getExternalContext().getRequestParameterMap();
+
+		Long id = Long.parseLong(params.get("parempid"));
+		
+		empleado = empleadoService.getEmpleadoRepository().findOne(new Long(id));
 		return "mntEmpleado";
 	}
 
