@@ -50,7 +50,8 @@ public class LoginManagedBean {
 			}
 		}else{
 			context.getExternalContext().getSessionMap().put("empleado", empleado);
-			return "principal";
+			//enviar a una pantalla de mantenimiento general
+			return "mntEmpleado";
 		}
 	}
 	

@@ -7,48 +7,50 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <ui:composition template="/WEB-INF/templatesCli/BasicTemplate.xhtml">
-	<!-- Listado de todos los productos para la compra -->
+	<!-- Listado del carrito de compra -->
 	<ui:define name="content">
 	    Bienvenido: 
 	    <h:form id="MyForm">
-			<h:dataTable value="#{productoManagedBean.productos}" var="e"
+			<h:dataTable value="#{carritoManagedBean.listaProductosCarrito}" var="e"
 				border="1">
 				<h:column>
 					<f:facet name="header">Id</f:facet>
 			 		#{e.id}
 				</h:column>
 				<h:column>
-					<f:facet name="header">Titulo</f:facet>
-					#{e.titulo}
+					<f:facet name="header">Nro Pedido</f:facet>
+					#{e.pedido.nroPedido}
 				</h:column>
 				<h:column>
-					<f:facet name="header">Imagen</f:facet>
-					<h:graphicImage value="${e.imagen}"></h:graphicImage>
+					<f:facet name="header">Producto</f:facet>
+					#{e.producto.titulo}
 				</h:column>
 				<h:column>
 					<f:facet name="header">ISBN</f:facet>
-					${e.isbn}
-				</h:column>
-				<h:column>
-					<f:facet name="header">Descripcion</f:facet>
-					${e.descripcion}
-				</h:column>
-				<h:column>
-					<f:facet name="header">Stock</f:facet>
-					${e.stock}
+					${e.producto.isbn}
 				</h:column>
 				<h:column>
 					<f:facet name="header">Precio</f:facet>
-					${e.precio}
+					${e.producto.precio}
 				</h:column>
 				<h:column>
-					<f:facet name="header">Comprar</f:facet>
-					<h:commandLink value="Comprar"
-						action="#{carritoManagedBean.productSelect}">
-						<f:param value="#{e.id}" name="parprodid"></f:param>
-					</h:commandLink>
+					<f:facet name="header">Cantidad</f:facet>
+					${e.cantidad}
 				</h:column>
+				<h:column>
+					<f:facet name="header">Sub Total</f:facet>
+					${e.subtotal}
+				</h:column>
+				
 			</h:dataTable>
+			<h:outputLabel>Total de Compra:  </h:outputLabel>
+					<h:outputText value="#{carritoManagedBean.totalCompra}">
+						<f:convertNumber type="currency" locale="es_PE" />
+					</h:outputText>
+					
+					<h:commandLink value="Seguir Comprando"
+						action="#{carritoManagedBean.irPrincipal}">
+					</h:commandLink>
 		</h:form>
 	</ui:define>
 

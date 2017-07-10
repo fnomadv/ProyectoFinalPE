@@ -11,41 +11,42 @@
 	<ui:define name="content">
 	    Bienvenido: 
 	    <h:form id="MyForm">
-			<h:dataTable value="#{productoManagedBean.productos}" var="e"
-				border="1">
+			<h:dataTable value="#{carritoManagedBean.productoSeleccionado}"
+				var="p" border="1">
 				<h:column>
 					<f:facet name="header">Id</f:facet>
-			 		#{e.id}
+			 		#{p.id}
 				</h:column>
 				<h:column>
 					<f:facet name="header">Titulo</f:facet>
-					#{e.titulo}
+					#{p.titulo}
 				</h:column>
 				<h:column>
 					<f:facet name="header">Imagen</f:facet>
-					<h:graphicImage value="${e.imagen}"></h:graphicImage>
+					<h:graphicImage value="${p.imagen}"></h:graphicImage>
 				</h:column>
 				<h:column>
 					<f:facet name="header">ISBN</f:facet>
-					${e.isbn}
+					${p.isbn}
 				</h:column>
 				<h:column>
 					<f:facet name="header">Descripcion</f:facet>
-					${e.descripcion}
-				</h:column>
-				<h:column>
-					<f:facet name="header">Stock</f:facet>
-					${e.stock}
+					${p.descripcion}
 				</h:column>
 				<h:column>
 					<f:facet name="header">Precio</f:facet>
-					${e.precio}
+					${p.precio}
 				</h:column>
 				<h:column>
-					<f:facet name="header">Comprar</f:facet>
-					<h:commandLink value="Comprar"
-						action="#{carritoManagedBean.productSelect}">
-						<f:param value="#{e.id}" name="parprodid"></f:param>
+					<f:facet name="header">Cantidad</f:facet>
+					<h:inputText value="#{carritoManagedBean.cantidad}">
+					</h:inputText>
+				</h:column>
+				<h:column>
+					<f:facet name="header">--------</f:facet>
+					<h:commandLink value="Añadir al Carrito"
+						action="#{carritoManagedBean.agregarCarrito}">
+						<f:param value="#{p.id}" name="parprodid"></f:param>
 					</h:commandLink>
 				</h:column>
 			</h:dataTable>

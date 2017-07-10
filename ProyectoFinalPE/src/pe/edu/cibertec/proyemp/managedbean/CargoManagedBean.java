@@ -10,7 +10,6 @@ import javax.faces.bean.SessionScoped;
 import com.google.common.collect.Lists;
 
 import pe.edu.cibertec.proyemp.model.Cargo;
-import pe.edu.cibertec.proyemp.model.Rol;
 import pe.edu.cibertec.proyemp.service.CargoService;
 
 

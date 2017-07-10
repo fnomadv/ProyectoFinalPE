@@ -51,13 +51,23 @@ public class EmpleadoManagedBean {
 				return "mntEmpleado";
 			}
 		}
-		
 		empleado.setUsuario(empleado.getDni());
 		int passAleatorio = (int) (Math.random() * 99999 + 10000);
 		empleado.setClave(Integer.toString(passAleatorio));
 		empleado.setEstado("Activo");
 		empleadoService.getEmpleadoRepository().save(empleado);
 		
+		empleado = new Empleado();
+		return "mntEmpleado";
+	}
+	
+	public String actualizarDatos(){
+		empleadoService.getEmpleadoRepository().save(empleado);
+		empleado = new Empleado();
+		return "mntEmpleado";
+	}
+	
+	public String limpiar(){
 		empleado = new Empleado();
 		return "mntEmpleado";
 	}

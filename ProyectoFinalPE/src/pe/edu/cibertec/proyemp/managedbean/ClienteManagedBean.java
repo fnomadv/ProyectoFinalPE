@@ -57,7 +57,7 @@ public class ClienteManagedBean {
 		FacesContext context = FacesContext.getCurrentInstance();
 		Map<String, String> params = context.getExternalContext().getRequestParameterMap();
 
-		Long id = Long.parseLong(params.get("parempid"));
+		Long id = Long.parseLong(params.get("parcliid"));
 		
 		cliente = clienteService.getClienteRepository().findOne(new Long(id));
 		
@@ -72,11 +72,17 @@ public class ClienteManagedBean {
 		return "mntCliente";
 	}
 	
+	public String actualizarDatos(){
+		clienteService.getClienteRepository().save(cliente);
+		cliente = new Cliente();
+		return "mntCliente";
+	}
+	
 	public String actualizar(){
 		FacesContext context = FacesContext.getCurrentInstance();
 		Map<String, String> params = context.getExternalContext().getRequestParameterMap();
 
-		Long id = Long.parseLong(params.get("parempid"));
+		Long id = Long.parseLong(params.get("parcliid"));
 		
 		cliente = clienteService.getClienteRepository().findOne(new Long(id));
 		return "mntCliente";
