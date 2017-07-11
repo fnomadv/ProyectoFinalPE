@@ -10,11 +10,15 @@
 
 	<ui:define name="content">
 		<h:form>
+		<h:messages globalOnly="true" 
+	    		showSummary="true" showDetail="false"></h:messages>
 			<h2>Mantenimiento Rol</h2>
-			<h:panelGrid columns="2">
+			<h:panelGrid columns="3">
 				<h:outputText value="Nombre:" />
-				<h:inputText value="#{rolManagedBean.rol.nombre}">
+				<h:inputText id="nombre" value="#{rolManagedBean.rol.nombre}" required="true"
+						requiredMessage="Campo obligatorio">
 				</h:inputText>
+				<h:message for="nombre" style="color:red"></h:message>
 
 				<h:commandButton value="Registrar"
 					action="#{rolManagedBean.guardar}" />

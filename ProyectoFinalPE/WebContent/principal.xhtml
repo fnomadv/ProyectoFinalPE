@@ -9,8 +9,12 @@
 <ui:composition template="/WEB-INF/templatesCli/BasicTemplate.xhtml">
 	<!-- Listado de todos los productos para la compra -->
 	<ui:define name="content">
-	    Bienvenido: 
+	    
 	    <h:form id="MyForm">
+	    Bienvenid@: <h:outputLabel value="#{productoManagedBean.cliente.apellidos}"></h:outputLabel>,
+	    			<h:outputLabel value="#{productoManagedBean.cliente.nombres}"></h:outputLabel> <br></br>
+	    			<h:commandButton value="Ver Carrito Actual" action="#{carritoManagedBean.verCarritoCompra}"></h:commandButton>
+	    			<h:commandButton value="Cerrar Session" action="#{loginManagedBean.cerrarSesion}"></h:commandButton>
 			<h:dataTable value="#{productoManagedBean.productos}" var="e"
 				border="1">
 				<h:column>

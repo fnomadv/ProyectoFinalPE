@@ -1,7 +1,6 @@
 package pe.edu.cibertec.proyemp.managedbean;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -52,6 +51,8 @@ public class CarritoManagedBean {
 
 	@ManagedProperty(value = "#{detallePedidoService}")
 	private DetallePedidoService detallePedidoService;
+	
+	
 
 	/**
 	 * Metodo que obtiene el producto y la cantidad a pedir y se agregará al
@@ -67,17 +68,15 @@ public class CarritoManagedBean {
 		Long id = Long.parseLong(params.get("parprodid"));
 		productoSeleccionado = productoService.getProductoRepository().findOne(new Long(id));
 		cliente = (Cliente) context.getExternalContext().getSessionMap().get("cliente");
+		totalCompra = 0.0;
 		//listaProductosCarrito = 
 		if (cantidad != 0) {
 			//buscar si cliente tiene pedido pendiente
-			pedido = pedidoService.getPedidoRepository().obtenerPedidoPorEstado(cliente.getId(), "Pendiente");
-			//System.out.println("Pedido pendiente es "+pedido.getId()+" / "+pedido.getNroPedido());
+			pedido = pedidoService.getPedidoRepository().obtenerPedidoPorCliente_Estado(cliente.getId(), "Pendiente");
 			if(pedido != null){
-				System.out.println("if de pedido != null");
 				//buscamos si tiene un carrito pendiente
 				listaProductosCarrito = detallePedidoService.getDetallePedidoRepository().listadoPendientes(pedido.getId());
 				if(listaProductosCarrito == null){
-//					System.out.println("if de listaProductosCarrito != null");
 //					//agregamos el nuevo detalle al pedido
 //					//crear el datelle del pedido
 					detallePedido.setPedido(pedido);
@@ -92,7 +91,6 @@ public class CarritoManagedBean {
 					detallePedido = new DetallePedido();
 					return "carrito_compra";
 				}else{
-					System.out.println("else de listaProductosCarrito != null");
 					// si exista un carrito
 					// comprobar que si el producto seleccionado ya se encuentra en el carrito
 					listaProductosCarrito = detallePedidoService.getDetallePedidoRepository().listadoPendientes(pedido.getId());
@@ -101,11 +99,8 @@ public class CarritoManagedBean {
 						totalCompra += lp.getSubtotal();
 					}
 					for (DetallePedido lp : listaProductosCarrito) {
-						System.out.println("dentro del for");
-						System.out.println(lp.getProducto().getId());
-						System.out.println(productoSeleccionado.getId());
 						if (lp.getProducto().getId() == productoSeleccionado.getId()) {
-							System.out.println("modificando el producto que estaba en el carrito");
+							totalCompra -= lp.getSubtotal();
 							lp.setCantidad(cantidad + lp.getCantidad());
 							st = productoSeleccionado.getPrecio() * lp.getCantidad();
 							lp.setSubtotal(st);
@@ -116,6 +111,7 @@ public class CarritoManagedBean {
 							return "carrito_compra";
 						}
 					}
+					
 					detallePedido.setPedido(pedido);
 					detallePedido.setProducto(productoSeleccionado);
 					detallePedido.setCantidad(cantidad);
@@ -132,10 +128,18 @@ public class CarritoManagedBean {
 			else{
 				//Si el cliente no presenta ningun pedido pendiente creamos un nuevo pedido
 				Date fecha = new Date();
-				// guardamos pedidos y detallePedido
+				List<Pedido> pedidos2 = new ArrayList<Pedido>();
+				pedidos2 = pedidoService.getPedidoRepository().obtenerPedidosPorCliente(cliente.getId());
+				int cantPedidos = pedidos2.size();
+
+				pedido = new Pedido();
 				pedido.setCliente(cliente);
-				int cont = (int) pedidoService.getPedidoRepository().count() + 1;
-				pedido.setNroPedido("P000" + cont);
+				if(cantPedidos == 0){
+					pedido.setNroPedido("P0001");
+				}else{
+					cantPedidos++;
+					pedido.setNroPedido("P000"+cantPedidos);
+				}
 				pedido.setEstado("Pendiente");
 				pedido.setFechaPedido(fecha);
 				pedidoService.getPedidoRepository().save(pedido);
@@ -177,6 +181,68 @@ public class CarritoManagedBean {
 		productoSeleccionado = productoService.getProductoRepository().findOne(new Long(id));
 
 		return "producto_detalle";
+	}
+	
+	public String anularPedido(){
+		FacesContext context = FacesContext.getCurrentInstance();
+		Map<String, String> params = context.getExternalContext().getRequestParameterMap();
+		Long id = Long.parseLong(params.get("idPedido"));
+		pedido = pedidoService.getPedidoRepository().findOne(new Long(id));
+		listaProductosCarrito = detallePedidoService.getDetallePedidoRepository().listadoPendientes(pedido.getId());
+		for (DetallePedido d : listaProductosCarrito) {
+			detallePedidoService.getDetallePedidoRepository().delete(d.getId());
+		}
+		pedidoService.getPedidoRepository().delete(id);
+		listaProductosCarrito=new ArrayList<DetallePedido>();
+		return "principal";
+	}
+	
+	public String completarPedido(){
+		FacesContext context = FacesContext.getCurrentInstance();
+		Map<String, String> params = context.getExternalContext().getRequestParameterMap();
+		Long id = Long.parseLong(params.get("idPedido"));
+		pedido = pedidoService.getPedidoRepository().findOne(new Long(id));
+		pedido.setEstado("Pagado");
+		pedidoService.getPedidoRepository().save(pedido);
+		pedido = new Pedido();
+		listaProductosCarrito=new ArrayList<DetallePedido>();
+		return "principal";
+	}
+	
+	public String quitarProductoCarrito(){
+		FacesContext context = FacesContext.getCurrentInstance();
+		Map<String, String> params = context.getExternalContext().getRequestParameterMap();
+
+		Long id = Long.parseLong(params.get("idDetPed"));
+		detallePedidoService.getDetallePedidoRepository().delete(id);
+		cliente = (Cliente) context.getExternalContext().getSessionMap().get("cliente");
+		pedido = pedidoService.getPedidoRepository().obtenerPedidoPorCliente_Estado(cliente.getId(), "Pendiente");
+		listaProductosCarrito = detallePedidoService.getDetallePedidoRepository().listadoPendientes(pedido.getId());
+		totalCompra = 0.0;
+		if(listaProductosCarrito != null){
+			for (DetallePedido lp : listaProductosCarrito) {
+				totalCompra += lp.getSubtotal();
+			}
+		}			
+		return "carrito_compra";
+	}
+	
+	public String verCarritoCompra(){
+		FacesContext context = FacesContext.getCurrentInstance();
+		cliente = (Cliente) context.getExternalContext().getSessionMap().get("cliente");
+		pedido = pedidoService.getPedidoRepository().obtenerPedidoPorCliente_Estado(cliente.getId(), "Pendiente");
+		totalCompra = 0.0;
+		if(pedido != null){
+			listaProductosCarrito = detallePedidoService.getDetallePedidoRepository().listadoPendientes(pedido.getId());
+			if(listaProductosCarrito != null){
+				for (DetallePedido lp : listaProductosCarrito) {
+					totalCompra += lp.getSubtotal();
+				}
+			}else
+				listaProductosCarrito = new ArrayList<DetallePedido>();
+		}else
+			pedido = new Pedido();
+		return "carrito_compra";
 	}
 
 	public String irPrincipal() {

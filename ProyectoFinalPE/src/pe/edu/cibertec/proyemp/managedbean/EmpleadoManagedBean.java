@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -12,6 +13,7 @@ import javax.faces.context.FacesContext;
 import com.google.common.collect.Lists;
 
 import pe.edu.cibertec.proyemp.model.Cargo;
+import pe.edu.cibertec.proyemp.model.Cliente;
 import pe.edu.cibertec.proyemp.model.Departamento;
 import pe.edu.cibertec.proyemp.model.Empleado;
 import pe.edu.cibertec.proyemp.service.CargoService;
@@ -23,6 +25,8 @@ import pe.edu.cibertec.proyemp.service.EmpleadoService;
 public class EmpleadoManagedBean {
 
 	private Empleado empleado = new Empleado();
+	
+	private Empleado empSesion = new Empleado();
 	
 	private Departamento departamento = new Departamento();
 	
@@ -44,6 +48,12 @@ public class EmpleadoManagedBean {
 	private CargoService cargoService;
 	
 	public String guardar (){
+		FacesMessage message = 
+				new FacesMessage("Se guardó correctamente",
+						null);
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.addMessage(null, message);
+		
 		for (Empleado e : getEmpleados()) {
 			String dni = empleado.getDni().replace(" ", "");
 			if(e.getDni().equalsIgnoreCase(dni)){
@@ -175,6 +185,16 @@ public class EmpleadoManagedBean {
 
 	public void setCargoService(CargoService cargoService) {
 		this.cargoService = cargoService;
+	}
+
+	public Empleado getEmpSesion() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		empSesion = (Empleado) context.getExternalContext().getSessionMap().get("empleado");
+		return empSesion;
+	}
+
+	public void setEmpSesion(Empleado empSesion) {
+		this.empSesion = empSesion;
 	}
 	
 	

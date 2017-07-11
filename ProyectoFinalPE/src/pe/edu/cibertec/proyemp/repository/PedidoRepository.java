@@ -13,7 +13,11 @@ import pe.edu.cibertec.proyemp.model.Pedido;
 public interface PedidoRepository extends CrudRepository<Pedido, Long>{
 
 	@Query("select e from Pedido e where e.cliente.id = :idcli and e.estado like :est ")
-	Pedido obtenerPedidoPorEstado(@Param("idcli") Long idCliente,@Param("est") String estado
+	Pedido obtenerPedidoPorCliente_Estado(@Param("idcli") Long idCliente,@Param("est") String estado
+			);
+	
+	@Query("select e from Pedido e where e.cliente.id = :idcli")
+	List<Pedido> obtenerPedidosPorCliente(@Param("idcli") Long idCliente
 			);
 	
 }

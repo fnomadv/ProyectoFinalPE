@@ -41,16 +41,32 @@
 					<f:facet name="header">Sub Total</f:facet>
 					${e.subtotal}
 				</h:column>
+				<h:column>
+					<f:facet name="header">----------</f:facet>
+					<h:commandLink value="Quitar"
+						action="#{carritoManagedBean.quitarProductoCarrito}">
+						<f:param name="idDetPed" value="#{e.id}"></f:param>
+					</h:commandLink>
+				</h:column>
 				
 			</h:dataTable>
 			<h:outputLabel>Total de Compra:  </h:outputLabel>
 					<h:outputText value="#{carritoManagedBean.totalCompra}">
 						<f:convertNumber type="currency" locale="es_PE" />
-					</h:outputText>
-					
-					<h:commandLink value="Seguir Comprando"
+					</h:outputText><br></br>
+
+					<h:commandButton value="Seguir Comprando"
 						action="#{carritoManagedBean.irPrincipal}">
-					</h:commandLink>
+					</h:commandButton>
+					<h:commandButton value="Anular Pedido"
+						action="#{carritoManagedBean.anularPedido}">
+						<f:param name="idPedido" value="#{carritoManagedBean.pedido.id}"></f:param>
+						
+					</h:commandButton>
+					<h:commandButton value="Finalizar Pedido"
+						action="#{carritoManagedBean.completarPedido}">
+						<f:param name="idPedido" value="#{carritoManagedBean.pedido.id}"></f:param>
+					</h:commandButton>
 		</h:form>
 	</ui:define>
 

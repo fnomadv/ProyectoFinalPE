@@ -3,9 +3,11 @@ package pe.edu.cibertec.proyemp.managedbean;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import com.google.common.collect.Lists;
 
@@ -15,6 +17,8 @@ import pe.edu.cibertec.proyemp.service.RolService;
 @ManagedBean
 @SessionScoped
 public class RolManagedBean {
+	
+	
 
 	private Rol rol = new Rol();
 	
@@ -24,6 +28,12 @@ public class RolManagedBean {
 	private RolService rolService;
 
 	public String guardar (){
+		FacesMessage message = 
+				new FacesMessage("Se guardó correctamente",
+						null);
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.addMessage(null, message);
+		
 		rolService.getRolRepository().save(rol);
 		rol = new Rol();
 		return "mntRol";

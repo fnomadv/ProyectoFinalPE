@@ -7,10 +7,12 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.servlet.http.Part;
 
 import com.google.common.collect.Lists;
 
+import pe.edu.cibertec.proyemp.model.Cliente;
 import pe.edu.cibertec.proyemp.model.Producto;
 import pe.edu.cibertec.proyemp.service.ProductoService;
 
@@ -21,6 +23,8 @@ public class ProductoManagedBean {
 	private Part auxImagen;
 
 	private Producto producto = new Producto();
+	
+	private Cliente cliente = new Cliente();
 	
 	private List<Producto> productos = new ArrayList<Producto>();
 	
@@ -74,6 +78,16 @@ public class ProductoManagedBean {
 
 	public void setAuxImagen(Part auxImagen) {
 		this.auxImagen = auxImagen;
+	}
+
+	public Cliente getCliente() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		cliente = (Cliente) context.getExternalContext().getSessionMap().get("cliente");
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 	
 	
