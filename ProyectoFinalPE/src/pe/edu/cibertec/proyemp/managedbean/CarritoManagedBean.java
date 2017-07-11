@@ -71,47 +71,62 @@ public class CarritoManagedBean {
 		if (cantidad != 0) {
 			//buscar si cliente tiene pedido pendiente
 			pedido = pedidoService.getPedidoRepository().obtenerPedidoPorEstado(cliente.getId(), "Pendiente");
-			System.out.println("Pedido pendiente es "+pedido.getId()+" / "+pedido.getNroPedido());
+			//System.out.println("Pedido pendiente es "+pedido.getId()+" / "+pedido.getNroPedido());
 			if(pedido != null){
 				System.out.println("if de pedido != null");
-				//Si encontramos pedido pendiente, obtenemos el detalle de ese pedido
+				//buscamos si tiene un carrito pendiente
 				listaProductosCarrito = detallePedidoService.getDetallePedidoRepository().listadoPendientes(pedido.getId());
-				if(listaProductosCarrito != null){
+				if(listaProductosCarrito == null){
 //					System.out.println("if de listaProductosCarrito != null");
 //					//agregamos el nuevo detalle al pedido
 //					//crear el datelle del pedido
-//					detallePedido.setPedido(pedido);
-//					detallePedido.setProducto(productoSeleccionado);
-//					detallePedido.setCantidad(cantidad);
-//					st = detallePedido.getProducto().getPrecio() * cantidad;
-//					detallePedido.setSubtotal(st);
-//					
-//					totalCompra += detallePedido.getSubtotal();
-//					detallePedidoService.getDetallePedidoRepository().save(detallePedido);
-//					listaProductosCarrito = detallePedidoService.getDetallePedidoRepository().listadoPendientes(pedido.getId());
-//					detallePedido = new DetallePedido();
+					detallePedido.setPedido(pedido);
+					detallePedido.setProducto(productoSeleccionado);
+					detallePedido.setCantidad(cantidad);
+					st = detallePedido.getProducto().getPrecio() * cantidad;
+					detallePedido.setSubtotal(st);
+					
+					totalCompra += detallePedido.getSubtotal();
+					detallePedidoService.getDetallePedidoRepository().save(detallePedido);
+					listaProductosCarrito = detallePedidoService.getDetallePedidoRepository().listadoPendientes(pedido.getId());
+					detallePedido = new DetallePedido();
 					return "carrito_compra";
 				}else{
 					System.out.println("else de listaProductosCarrito != null");
-					// si la lista esta vacia comprobar si el producto ya esta en la lista
-					// para actualizarla
-//					listaProductosCarrito = detallePedidoService.getDetallePedidoRepository().listadoPendientes(pedido.getId());
-//					for (DetallePedido lp : listaProductosCarrito) {
-//						System.out.println("dentro del for");
-//						System.out.println(lp.getProducto().getId());
-//						System.out.println(productoSeleccionado.getId());
-//						if (lp.getProducto().getId() == productoSeleccionado.getId()) {
-//							System.out.println("modificando el producto que estaba en el carrito");
-//							detallePedido.setCantidad(cantidad + lp.getCantidad());
-//							st = productoSeleccionado.getPrecio() * detallePedido.getCantidad();
-//							detallePedido.setSubtotal(st);
-//							totalCompra += detallePedido.getSubtotal();
-//							detallePedidoService.getDetallePedidoRepository().save(detallePedido);
-//							listaProductosCarrito = detallePedidoService.getDetallePedidoRepository().listadoPendientes(pedido.getId());
-//							detallePedido = new DetallePedido();
-//							return "carrito_actual";
-//						}
-//					}
+					// si exista un carrito
+					// comprobar que si el producto seleccionado ya se encuentra en el carrito
+					listaProductosCarrito = detallePedidoService.getDetallePedidoRepository().listadoPendientes(pedido.getId());
+					//for para tener la totalidad de la compra
+					for (DetallePedido lp : listaProductosCarrito) {
+						totalCompra += lp.getSubtotal();
+					}
+					for (DetallePedido lp : listaProductosCarrito) {
+						System.out.println("dentro del for");
+						System.out.println(lp.getProducto().getId());
+						System.out.println(productoSeleccionado.getId());
+						if (lp.getProducto().getId() == productoSeleccionado.getId()) {
+							System.out.println("modificando el producto que estaba en el carrito");
+							lp.setCantidad(cantidad + lp.getCantidad());
+							st = productoSeleccionado.getPrecio() * lp.getCantidad();
+							lp.setSubtotal(st);
+							totalCompra += lp.getSubtotal();
+							detallePedidoService.getDetallePedidoRepository().save(lp);
+							listaProductosCarrito = detallePedidoService.getDetallePedidoRepository().listadoPendientes(pedido.getId());
+							detallePedido = new DetallePedido();
+							return "carrito_compra";
+						}
+					}
+					detallePedido.setPedido(pedido);
+					detallePedido.setProducto(productoSeleccionado);
+					detallePedido.setCantidad(cantidad);
+					st = detallePedido.getProducto().getPrecio() * cantidad;
+					detallePedido.setSubtotal(st);
+					
+					totalCompra += detallePedido.getSubtotal();
+					detallePedidoService.getDetallePedidoRepository().save(detallePedido);
+					listaProductosCarrito = detallePedidoService.getDetallePedidoRepository().listadoPendientes(pedido.getId());
+					detallePedido = new DetallePedido();
+					return "carrito_compra";
 				}
 			}
 			else{
