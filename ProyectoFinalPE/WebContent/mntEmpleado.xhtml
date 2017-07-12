@@ -7,43 +7,62 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <ui:composition template="/WEB-INF/templatesEmp/BasicTemplate.xhtml">
-
+	<ui:define name="menuizq">
+		<h:form>
+			<p class="lead">Mantenimientos</p>
+			<div class="list-group">
+				<h:commandLink class="list-group-item" value="CLIENTES"
+					action="mntCliente"></h:commandLink>
+				<h:commandLink class="list-group-item" value="EMPLEADOS"
+					action="mntEmpleado"></h:commandLink>
+				<h:commandLink class="list-group-item" value="ROLES" action="mntRol"></h:commandLink>
+				<h:commandLink class="list-group-item" value="CARGOS"
+					action="mntCargo"></h:commandLink>
+				<h:commandLink class="list-group-item" value="PRODUCTOS"
+					action="mntProducto"></h:commandLink>
+			</div>
+		</h:form>
+	</ui:define>
 	<ui:define name="content">
 		<h:form id="MyForm">
-			Bienvenid@: <h:outputLabel value="#{empleadoManagedBean.empSesion.apellidos}"></h:outputLabel>,
-	    				<h:outputLabel value="#{empleadoManagedBean.empSesion.nombres}"></h:outputLabel> <br></br>
+			Bienvenid@: <h:outputLabel
+				value="#{empleadoManagedBean.empSesion.apellidos}"></h:outputLabel>,
+	    				<h:outputLabel value="#{empleadoManagedBean.empSesion.nombres}"></h:outputLabel>
+			<br></br>
 			<h:commandButton value="Cerrar Sesion"
-					action="#{loginManagedBean.cerrarSesion}" />
+				action="#{loginManagedBean.cerrarSesion}" />
 		</h:form>
 		<h:form>
-		<h:messages globalOnly="true" 
-	    		showSummary="true" showDetail="false"></h:messages>
+			<h:messages globalOnly="true" showSummary="true" showDetail="false"></h:messages>
 			<h2>Mantenimiento de Empleado</h2>
 			<h:panelGrid columns="3">
 				<h:outputText value="Nombres:" />
-				<h:inputText id="nombres" value="#{empleadoManagedBean.empleado.nombres}" required="true"
-						requiredMessage="Campo obligatorio">
+				<h:inputText id="nombres"
+					value="#{empleadoManagedBean.empleado.nombres}" required="true"
+					requiredMessage="Campo obligatorio">
 				</h:inputText>
 				<h:message for="nombres" style="color:red"></h:message>
 
 				<h:outputText value="Apellidos:" />
-				<h:inputText id="apellidos" value="#{empleadoManagedBean.empleado.apellidos}" required="true"
-						requiredMessage="Campo obligatorio">
+				<h:inputText id="apellidos"
+					value="#{empleadoManagedBean.empleado.apellidos}" required="true"
+					requiredMessage="Campo obligatorio">
 				</h:inputText>
 				<h:message for="apellidos" style="color:red"></h:message>
 
 				<h:outputText value="DNI:" />
-				<h:inputText id="dni" value="#{empleadoManagedBean.empleado.dni}" required="true"
-						requiredMessage="Campo obligatorio">
+				<h:inputText id="dni" value="#{empleadoManagedBean.empleado.dni}"
+					required="true" requiredMessage="Campo obligatorio">
 				</h:inputText>
 				<h:message for="dni" style="color:red"></h:message>
 
 				<h:outputText value="Celular:" />
-				<h:inputText id="celular" value="#{empleadoManagedBean.empleado.celular}" required="true"
-						requiredMessage="Campo obligatorio">
+				<h:inputText id="celular"
+					value="#{empleadoManagedBean.empleado.celular}" required="true"
+					requiredMessage="Campo obligatorio">
 				</h:inputText>
 				<h:message for="celular" style="color:red"></h:message>
-			
+
 				<h:outputText value="Departamento:" />
 				<h:selectOneMenu
 					value="#{empleadoManagedBean.empleado.departamento.id}">
@@ -67,7 +86,7 @@
 					action="#{empleadoManagedBean.actualizarDatos}" />
 				<h:commandButton value="Limpiar"
 					action="#{empleadoManagedBean.limpiar}" />
-				
+
 			</h:panelGrid>
 
 
@@ -79,40 +98,40 @@
 					<f:facet name="header">Id</f:facet>
 			 	#{e.id}
 			</h:column>
-					<h:column>
-						<f:facet name="header">Apellidos y Nombres</f:facet>
+				<h:column>
+					<f:facet name="header">Apellidos y Nombres</f:facet>
 				#{e.apellidos}, #{e.nombres}
 			</h:column>
-					<h:column>
-						<f:facet name="header">DNI</f:facet>
+				<h:column>
+					<f:facet name="header">DNI</f:facet>
 				${e.dni}
 			</h:column>
-					<h:column>
-						<f:facet name="header">Celular</f:facet>
+				<h:column>
+					<f:facet name="header">Celular</f:facet>
 				${e.celular}
 			</h:column>
-					<h:column>
-						<f:facet name="header">Departamento</f:facet>
+				<h:column>
+					<f:facet name="header">Departamento</f:facet>
 				${e.departamento.nombre}
 			</h:column>
-					<h:column>
-						<f:facet name="header">Cargo</f:facet>
+				<h:column>
+					<f:facet name="header">Cargo</f:facet>
 				${e.cargo.nombre}
 			</h:column>
-			<h:column>
-				<f:facet name="header">Cambiar Estado</f:facet>
-				<h:commandLink value="${e.estado}"
-					action="#{empleadoManagedBean.editarEstado}">
-					<f:param name="parempid" value="#{e.id}"></f:param>
-				</h:commandLink>
-			</h:column>
-			<h:column>
-				<f:facet name="header">Actualizar</f:facet>
-				<h:commandLink value="actualizar"
-					action="#{empleadoManagedBean.actualizar}">
-					<f:param name="parempid" value="#{e.id}"></f:param>
-				</h:commandLink>
-			</h:column>
+				<h:column>
+					<f:facet name="header">Cambiar Estado</f:facet>
+					<h:commandLink value="${e.estado}"
+						action="#{empleadoManagedBean.editarEstado}">
+						<f:param name="parempid" value="#{e.id}"></f:param>
+					</h:commandLink>
+				</h:column>
+				<h:column>
+					<f:facet name="header">Actualizar</f:facet>
+					<h:commandLink value="actualizar"
+						action="#{empleadoManagedBean.actualizar}">
+						<f:param name="parempid" value="#{e.id}"></f:param>
+					</h:commandLink>
+				</h:column>
 
 			</h:dataTable>
 

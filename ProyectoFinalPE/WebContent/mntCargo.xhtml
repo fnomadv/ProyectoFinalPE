@@ -7,7 +7,22 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <ui:composition template="/WEB-INF/templatesEmp/BasicTemplate.xhtml">
-
+	<ui:define name="menuizq">
+		<h:form>
+			<p class="lead">Mantenimientos</p>
+			<div class="list-group">
+				<h:commandLink class="list-group-item" value="CLIENTES"
+					action="mntCliente"></h:commandLink>
+				<h:commandLink class="list-group-item" value="EMPLEADOS"
+					action="mntEmpleado"></h:commandLink>
+				<h:commandLink class="list-group-item" value="ROLES" action="mntRol"></h:commandLink>
+				<h:commandLink class="list-group-item" value="CARGOS"
+					action="mntCargo"></h:commandLink>
+				<h:commandLink class="list-group-item" value="PRODUCTOS"
+					action="mntProducto"></h:commandLink>
+			</div>
+		</h:form>
+	</ui:define>
 	<ui:define name="content">
 		<h:form>
 			<h2>Mantenimiento de Cargos</h2>

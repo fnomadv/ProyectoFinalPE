@@ -41,7 +41,7 @@ public class LoginManagedBean {
 		
 		if(empleado == null ){
 			if(cliente == null){
-				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Aviso","Incorrecto"));
+				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Usuario y Clave incorrectos","Incorrecto"));
 				return "login";
 			}
 			else{
