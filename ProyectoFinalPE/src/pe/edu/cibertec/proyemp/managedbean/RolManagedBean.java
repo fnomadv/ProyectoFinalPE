@@ -33,7 +33,8 @@ public class RolManagedBean {
 						null);
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.addMessage(null, message);
-		
+//		System.out.println(rol.getId());
+//		System.out.println(rol.getNombre());
 		rolService.getRolRepository().save(rol);
 		rol = new Rol();
 		return "mntRol";

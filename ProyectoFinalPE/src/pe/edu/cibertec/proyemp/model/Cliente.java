@@ -20,7 +20,7 @@ public class Cliente {
 	private String usuario;
 	private String clave;
 	private String estado;
-	
+
 	@ManyToOne
 	private Rol rol = new Rol();
 
@@ -94,6 +94,61 @@ public class Cliente {
 
 	public void setRol(Rol rol) {
 		this.rol = rol;
+	}
+
+	public boolean validarTelefono(String telefono) {
+
+		if (telefono == null)
+			return false;
+		else {
+			if (telefono.isEmpty())
+				return false;
+			else {
+				if (telefono.length() != 7)
+					if (telefono.length() != 9)
+						return false;
+					else {
+						for (int i = 0; i <= telefono.length()-1; i++) {
+							char letra = telefono.charAt(i);
+							if (!Character.isDigit(letra))
+								return false;
+						}
+					}
+				else {
+					for (int i = 0; i <= telefono.length()-1; i++) {
+						char letra = telefono.charAt(i);
+						if (!Character.isDigit(letra))
+							return false;
+					}
+				}
+			}
+		}
+
+		return true;
+	}
+
+	public boolean validarDni(String dni) {
+
+		if (dni == null)
+			return false;
+		else {
+			if (dni.isEmpty())
+				return false;
+			else {
+				if (dni.length() != 8)
+					return false;
+				else {
+					for (int i = 0; i <= dni.length()-1; i++) {
+						char letra = dni.charAt(i);
+						if (!Character.isDigit(letra))
+							return false;
+					}
+				}
+			}
+
+		}
+
+		return true;
 	}
 
 }

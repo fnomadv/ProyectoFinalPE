@@ -14,6 +14,15 @@ public class Rol {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	private String nombre;
+	
+	public Rol(){}
+
+	public Rol(String nombre) {
+		super();
+		this.nombre = nombre;
+	}
+
+
 
 	public Long getId() {
 		return id;

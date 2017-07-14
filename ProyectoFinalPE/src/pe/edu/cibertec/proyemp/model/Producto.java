@@ -83,5 +83,21 @@ public class Producto {
 	public void setPrecio(double precio) {
 		this.precio = precio;
 	}
+	
+	public boolean validarIsbn(String isbn){
+		if(isbn == null)
+			return false;
+		
+		if(isbn.length() != 13)
+			return false;
+		
+		for (int i = 0; i <= isbn.length()-1; i++) {
+			char letra = isbn.charAt(i);
+			if (!Character.isDigit(letra))
+				return false;
+		}
+		
+		return true;
+	}
 
 }

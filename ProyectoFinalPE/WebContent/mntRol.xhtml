@@ -18,6 +18,8 @@
 				<h:commandLink class="list-group-item" value="ROLES" action="mntRol"></h:commandLink>
 				<h:commandLink class="list-group-item" value="CARGOS"
 					action="mntCargo"></h:commandLink>
+				<h:commandLink class="list-group-item" value="DEPARTAMENTO"
+					action="mntDepartamento"></h:commandLink>
 				<h:commandLink class="list-group-item" value="PRODUCTOS"
 					action="mntProducto"></h:commandLink>
 			</div>
@@ -30,7 +32,7 @@
 			<h2>Mantenimiento Rol</h2>
 			<h:panelGrid columns="3">
 				<h:outputText value="Nombre:" />
-				<h:inputText id="nombre" value="#{rolManagedBean.rol.nombre}" required="true"
+				<h:inputText id="nombre" value="#{rolManagedBean.rol.nombre}" name="txtNomRol" required="true"
 						requiredMessage="Campo obligatorio">
 				</h:inputText>
 				<h:message for="nombre" style="color:red"></h:message>
